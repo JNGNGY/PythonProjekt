@@ -1,11 +1,27 @@
-#Aufgabe1
+# Aufgabe 1
+# Python3.8
+# Mac OSx
+import csv
+with open('File_B_In2019_L.csv', encoding='iso-8859-1') as csvdatei:
+    csv_reader = csv.reader(csvdatei, delimiter=';')
+    Name_freq = {}
+    for row in csv_reader:
+        print(row)
+        ID, Vorname, Name, Strasse, Hausnr, PLZ, Ort, Telefon = row
+        Name_freq[Telefon] = Name_freq.get(Name, 0) + 1
 
-def fib(a=0, b=1):
-    """Generator that yields Fibonacci numbers. `a` and `b` are the seed values"""
-    while True:
-        yield a
-        a, b = b, a + b
+    print('-'*70)
 
-f = fib()
-print(', '.join(str(next(f)) for _ in range(25)))
-//Test-Commit
+with open('File_B_In2019_L.csv', encoding='iso-8859-1') as csvdatei:
+    csv_reader = csv.reader(csvdatei)
+    duplicate_Names = []
+    for row in csv_reader:
+        ID, Vorname, Name, Strasse, Hausnr, PLZ, Ort, Telefon = row
+        if Name_freq[Name] > 1:
+            duplicate_Names.append(row)
+
+# show results
+import pprint
+pprint.pprint(Name_freq)
+print('-'*70)
+pprint.pprint(sorted(duplicate_Names))
