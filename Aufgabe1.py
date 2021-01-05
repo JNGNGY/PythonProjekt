@@ -1,19 +1,21 @@
 # Python3.8
 # Mac OSx
 import csv
-with open('File_B_In2019_L.csv', encoding='mac_roman') as csvdatei:
-    csv_reader = csv.reader(csvdatei, delimiter=';')
+# show data value
+with open('File_B_In2019_L.csv', encoding='mac_roman') as csvdatei:     # öffnet csv file
+    csv_reader = csv.reader(csvdatei, delimiter=';')                    # legt trennzeichen fest
     Name_freq = {}
     for row in csv_reader:
-        print(row)
+        print(row)                                                      # gibt reihe aus
         ID, Vorname, Name, Strasse, Hausnr, PLZ, Ort, Telefon = row
         Name_freq[Name] = Name_freq.get(Name, 0) + 1
 
     print('-'*70)
 
+# search for rendundant
 with open('File_B_In2019_L.csv', encoding='mac_roman') as csvdatei:
     csv_reader = csv.reader(csvdatei, delimiter=';')
-    duplicate_Names = []
+    duplicate_Names = []                                                #sucht nach doppelten Daten
     for row in csv_reader:
         ID, Vorname, Name, Strasse, Hausnr, PLZ, Ort, Telefon = row
         if Name_freq[Name] > 1:
