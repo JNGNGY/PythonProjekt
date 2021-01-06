@@ -3,26 +3,18 @@
 #Creator: Nguyen Jan, Kroll Marco, Kayis Boran
 import csv
 from os import write
-# show data value
-with open('File_B_In2019_L.csv', encoding='mac_roman') as csvdatei:                                                 # öffnet csv file
-    csv_reader = csv.DictReader(csvdatei, delimiter=';')                                                            # liest Datein ein mit Header
-    csvfile = open('File_C_Inf2019l_Baba.csv', 'w', encoding='mac_roman',  newline='')                              # erstellt neue CSV File                
-    myFields = ['ID', 'Vorname', 'Name', 'Strasse', 'Hausnr.', 'PLZ', 'Ort', 'Telefon 1']                           # Variable für Header
-    writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=myFields)                                            # Schreibt die Datein ein mit Header        
-    writer.writeheader()                                                                                            # Schreibt den Header    
-    for row in csv_reader:                                                                                          # Für jede Zeile in der Variable csv_reader
-        writer.writerow(row)                                                                                        # Schreibt die Datein ein            
+with open('File_B_In2019_L.csv', encoding='mac_roman') as csvdatei, open('File_A_Inf2019_L.csv', encoding='mac_roman') as csvdatei1 :           # öffnet csv file
+    csv_reader = csv.DictReader(csvdatei, delimiter=';')
+    csv_reader1 = csv.DictReader(csvdatei1, delimiter=';')                                                                                      # liest Datein ein mit Header
+    csvfile = open('File_C_Inf2019l_Baba.csv', 'w', encoding='mac_roman',  newline='')                                                          # erstellt neue CSV File                
+    myFields = ['ID', 'Vorname', 'Name', 'Strasse', 'Hausnr.', 'PLZ', 'Ort', 'Telefon 1']                                                       # Variable für Header
+    writer = csv.DictWriter(csvfile, delimiter=';', fieldnames=myFields)                                                                        # Schreibt die Datein ein mit Header        
+    writer.writeheader()                                                                                                                        # Schreibt den Header    
+    for row in csv_reader:                                                                                                                      # Für jede Zeile in der Variable csv_reader
+        writer.writerow(row)
+    for row in csv_reader1:                                                                                                                     # Für jede Zeile in der Variable csv_reader
+        writer.writerow(row)                                                                                                                    # Schreibt die Datein ein            
     csvfile.close()
-
-
-
-
-
-
-
-
-
-
 
 
  #-----------------------------------------------History--------------------------------------------------------------------------------   
