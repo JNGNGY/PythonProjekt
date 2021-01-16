@@ -1,52 +1,105 @@
-# Python 3.9
+# Python 3.9.1
 # Windows 10
 # Creator: Nguyen Jan, Kroll Marco, Kayis Boran
-import csv
 import os
-import pathlib
-path = pathlib.Path().absolute()                                                                                                       # Holt der aktuellen Verzeichnis
-for FileB in os.listdir(path):                                                                                                         # For Schleife durchs Verzeichnis
-    if os.path.isfile(os.path.join(path,FileB)) and 'File_B_' in FileB:                                                                # Wenn im Verzeichnis ein File gibt mit dem namen "File_B_"
-        for FileA in os.listdir(path):                                                                                                 # For Schleife durchs Verzeichnis 
-            if os.path.isfile(os.path.join(path,FileA)) and 'File_A_' in FileA:                                                        # Wenn im Verzeichnis ein File gibt mit dem namen "File_A_"
-                with open(FileB, encoding='mac_roman') as FileB, open(FileA, encoding='mac_roman') as FileA:                           # öffnet csv file
-                    FileB_reader = csv.DictReader(FileB, delimiter=';')                                                                # liest CSV ein
-                    FileA_reader = csv.DictReader(FileA, delimiter=';')                                                                # liest CSV ein
-                    FileCWrite = open('DatenSchreiben.csv', 'w', encoding='mac_roman', newline='')                                     # erstellt neue CSV File                
-                    myFields = ['ID', 'Vorname', 'Name', 'Strasse', 'Hausnr.', 'PLZ', 'Ort', 'Telefon 1']                              # Variable für Header
-                    writer = csv.DictWriter(FileCWrite, delimiter=';', fieldnames=myFields)                                            # Funktion schreiben       
-                    writer.writeheader()                                                                                               # Schreibt den Header    
-                    for row in FileB_reader:                                                                                           # Für jede Zeile in FileB
-                        del row ['ID']                                                                                                 # Löscht den Inhalt von Spalte ID
-                        writer.writerow(row)                                                                                           # Schreibt ins neue CSV Datei
-                    for row in FileA_reader:                                                                                           # Für jede Zeile in FileA
-                        del row ['ID']                                                                                                 # Löscht den Inhalt von Spalte I
-                        writer.writerow(row)                                                                                           # Schreibt ins neue CSV Datei                                                                                        # Schreibt ins neue CSV Datei
-                    FileCWrite.close()                                                                                                 # Schliesst das CSV Datei
-                    FileB.close()                                                                                                      # Schliesst das CSV Datei
-                    FileA.close()                                                                                                      # Schliesst das CSV Datei
+def csveinleisen_fileb():
+    import csv
+    import os
+    import pathlib
+    path = pathlib.Path().absolute()                                                              # Holt der aktuellen Verzeichnis
+    for fileb in os.listdir(path):                                                                # For Schleife durchs Verzeichnis
+        if os.path.isfile(os.path.join(path,fileb)) and 'File_B_' in fileb:                       # Wenn im Verzeichnis ein File gibt mit dem namen "File_B_"
+          with open(fileb, encoding='mac_roman') as fileb:                                        # öffnet csv file
+            fileb_reader = csv.DictReader(fileb, delimiter=';')                                   # liest CSV ein
+            filewrite = open('FileB.csv', 'w', newline='')                                        # erstellt neue CSV File
+            header = ['ID', 'Vorname', 'Name', 'Strasse', 'Hausnr.', 'PLZ', 'Ort', 'Telefon 1']   # Array für Header
+            writer = csv.DictWriter(filewrite, delimiter=';', fieldnames=header)                  # Funktion schreiben
+            writer.writeheader()                                                                  # Schreibt den Header
+            for row in fileb_reader:                                                              # Für jede Zeile in der Variable
+                del row ['ID']                                                                    # Löscht den Inhalt von Spalte ID
+                writer.writerow(row)                                                              # Zeile wird ins neue CSV gschrieben
+            filewrite.close()                                                                     # Schliesst das CSV Datei
+            fileb.close()                                                                         # Schliesst das CSV Datei
+ 
+def csveinleisen_filea():
+    import csv
+    import os
+    import pathlib           
+    path = pathlib.Path().absolute()                                                              # Holt der aktuellen Verzeichnis
+    for filea in os.listdir(path):                                                                # For Schleife durchs Verzeichnis
+        if os.path.isfile(os.path.join(path,filea)) and 'File_A_' in filea:                       # Wenn im Verzeichnis ein File gibt mit dem namen "File_B_"
+          with open(filea, encoding='mac_roman') as filea:                                        # öffnet csv file
+            filea_reader = csv.DictReader(filea, delimiter=';')                                   # liest CSV ein
+            filewrite = open('FileA.csv', 'w', newline='')                                        # erstellt neue CSV File
+            header = ['ID', 'Vorname', 'Name', 'Strasse', 'Hausnr.', 'PLZ', 'Ort', 'Telefon 1']   # Array für Header
+            writer = csv.DictWriter(filewrite, delimiter=';', fieldnames=header)                  # Funktion schreiben
+            writer.writeheader()                                                                  # Schreibt den Header
+            for row in filea_reader:                                                              # Für jede Zeile in der Variable
+                del row ['ID']                                                                    # Löscht den Inhalt von Spalte ID
+                writer.writerow(row)                                                              # Zeile wird ins neue CSV gschrieben
+            filewrite.close()                                                                     # Schliesst das CSV Datei
+            filea.close()                                                                         # Schliesst das CSV Datei
 
-with open('DatenSchreiben.csv', encoding='mac_roman') as FileWrite, open('DoppelteDatenLöschen.csv','w') as FileDeleteDuplicate:       # öffnet csv file und erstellt ein neues CSV
-    duplicate = set()                                                                                                                  # set for fast O(1) amortized lookup
-    for line in FileWrite:                                                                                                             # Für jede Zeile im File
-        if line not in duplicate:                                                                                                      # Wenn Zeile nicht in duplicate existiert    
-            duplicate.add(line)                                                                                                        # In Line hinzüfugen
-            FileDeleteDuplicate.write(line)                                                                                            # Daten ins neue CSV reinschreiben         
-    FileWrite.close()                                                                                                                  # Schliesst das CSV Datei
-    FileDeleteDuplicate.close()                                                                                                        # Schliesst das CSV Datei
+def duplicatefind():
+    import csv
+    datensatzb = []                                                                               # Array erstellen
+    with open('FileB.csv', encoding='mac_roman') as fileb:                                        # öffnet csv file
+        fileb_reader = csv.DictReader(fileb, delimiter=';')                                       # liest CSV ein
+        for line in fileb_reader:                                                                 # Für jede Zeile in der Variable
+            datensatzb.append(line)                                                               # Speicher die Zeile im Array
+        fileb.close                                                                               # Schliesst das CSV Datei
 
-with open('DoppelteDatenLöschen.csv', encoding='mac_roman') as FileNoDuplicate:                                                        # öffnet csv file
-    FileC_reader = csv.DictReader(FileNoDuplicate, delimiter=';')                                                                      # liest CSV ein
-    FileC = open('File_C_Inf2019l_JMB.csv', 'w', encoding='mac_roman',  newline='')                                                    # erstellt neue CSV File
-    myFields = ['ID', 'Vorname', 'Name', 'Strasse', 'Hausnr.', 'PLZ', 'Ort', 'Telefon 1']                                              # Variable für Header
-    writer = csv.DictWriter(FileC, delimiter=';', fieldnames=myFields)                                                                 # Funktion schreiben        
-    writer.writeheader()                                                                                                               # Schreibt den Header
-    for count, row in enumerate(FileC_reader,1):                                                                                       # Für jede Zeile mit inhalt wird es von 1 hinaufgezählt
-        row['ID'] = count                                                                                                              # Zählt von Spalte ID 1 aufwärts
-        writer.writerow(row)                                                                                                           # Schreibt die Daten ins neue CSV File               
-    FileNoDuplicate.close()                                                                                                            # Schliesst das CSV Datei           
-    FileC.close()                                                                                                                      # Schliesst das CSV Datei
+    with open('FileA.csv', encoding='mac_roman') as filea:                                        # öffnet csv file
+        filea_reader = csv.DictReader(filea, delimiter=';')                                       # liest CSV ein
+        filecwrite = open('FileC.csv', 'w', encoding='mac_roman', newline='')                     # erstellt neue CSV File
+        header = ['ID', 'Vorname', 'Name', 'Strasse', 'Hausnr.', 'PLZ', 'Ort', 'Telefon 1']       # Array für Header
+        writer = csv.DictWriter(filecwrite, delimiter=';', fieldnames=header)                     # Funktion schreiben
+        writer.writeheader()                                                                      # Schreibt den Header
+        for line in filea_reader:                                                                 # Für jede Zeile in der Variable
+            count = datensatzb.count(line)                                                        # Zählt wie oft die Zeile in der Variable vor kommt
+            if count >= 2:                                                                        # Wenn gleich oder mehr als 2 mal vorkommt
+                writer.writerow(line)                                                             # Zeile wird ins neue CSV gschrieben
+        filecwrite.close                                                                          # Schliesst das CSV Datei
+        filea.close                                                                               # Schliesst das CSV Datei
 
-import os                
-os.remove('DatenSchreiben.csv')                                                                                                        # Löscht die Datei
-os.remove('DoppelteDatenLöschen.csv')                                                                                                  # Löscht die Datei
+def deletedoppelte():
+    with open('FileC.csv', 'r', encoding='mac_roman') as fileRedundant:                           # öffnet csv file
+        filenoredudant = open('NoRedudant.csv', 'w', encoding='mac_roman')                        # erstellt neue CSV File
+        duplicate = set()                                                                         # Wert kann nicht mehrmals in der Variable vorkommen
+        for row in fileRedundant:                                                                 # Für jede Zeile in der Variable
+            if row not in  duplicate:                                                             # Wenn Zeile nicht in der Variable ist
+                duplicate.add(row)                                                                # Zeile wird in Duplicate hinzugefügt
+                filenoredudant.write(row)                                                         # Zeile wird ins neue CSV gschrieben
+        fileRedundant.close                                                                       # Schliesst das CSV Datei
+
+def createid():
+    import csv
+    with open('NoRedudant.csv', encoding='mac_roman') as FileNoDuplicate:                         # öffnet csv file
+        noduplicate_reader = csv.DictReader(FileNoDuplicate, delimiter=';')                       # liest CSV ein
+        endfile = open('File_C_Inf2019l_JMB.csv', 'w', encoding='mac_roman',  newline='')         # erstellt neue CSV File
+        header = ['ID', 'Vorname', 'Name', 'Strasse', 'Hausnr.', 'PLZ', 'Ort', 'Telefon 1']       # Array für Header
+        writer = csv.DictWriter(endfile, delimiter=';', fieldnames=header)                        # Funktion schreiben
+        writer.writeheader()                                                                      # Schreibt den Header
+        for count, row in enumerate(noduplicate_reader,1):                                        # Für jede Zeile mit inhalt wird es von 1 hinaufgezählt
+            row['ID'] = count                                                                     # Zählt von Spalte ID von 1 aufwärts
+            writer.writerow(row)                                                                  # Zeile wird ins neue CSV gschrieben
+        FileNoDuplicate.close()                                                                   # Schliesst das CSV Datei
+        endfile.close()                                                                           # Schliesst das CSV Datei
+
+
+print('Start Script')
+
+#Methode ausführen
+csveinleisen_filea()
+csveinleisen_fileb()
+duplicatefind()
+deletedoppelte()
+createid()
+
+# Files löschen die nicht gebraucht werden
+os.remove('FileC.csv')
+os.remove('NoRedudant.csv')
+os.remove('FileA.csv')
+os.remove('FileB.csv')
+
+print('Script done')
